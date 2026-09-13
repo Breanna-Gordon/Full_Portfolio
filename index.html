@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,19 +52,19 @@
   .filter-btn:hover { border-color: var(--line-bright); color: var(--text); }
   .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 
-  .grid { max-width: 1680px; margin: 0 auto; padding: 40px 48px 120px; display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 28px; }
+  .grid { max-width: 1680px; margin: 0 auto; padding: 40px 48px 120px; display: grid; grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)); gap: 28px; }
   .card {
     background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
     display: flex; flex-direction: column; overflow: hidden;
     transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
   .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--accent); border-color: var(--accent); }
-  .card-window { aspect-ratio: 16 / 9; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; background: #0A0C0F; }
+  .card-window { aspect-ratio: 16 / 10; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; background: #0A0C0F; }
   .window-bar { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--surface-2); flex-shrink: 0; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-bright); }
   .window-label { font-family: var(--mono); font-size: 12px; color: var(--text-soft); margin-left: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .window-body { flex: 1; position: relative; overflow: hidden; }
-  .window-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .window-body iframe { width: 133.333%; height: 133.333%; border: 0; display: block; transform: scale(0.75); transform-origin: top left; }
   .window-body video, .window-body img.static-preview { width: 100%; height: 100%; object-fit: cover; display: block; }
   .placeholder-fill { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--text-soft); text-align: center; padding: 24px; }
   .placeholder-fill.locked { color: var(--coral); }
@@ -84,13 +85,13 @@
 <body>
 
 <header>
-  <div class="breadcrumb">github.com/<span id="gh-user">your-username</span><span class="sep">/</span>projects</div>
+  <div class="breadcrumb">github.com/<span id="gh-user">Breanna-Gordon</span><span class="sep">/</span>projects</div>
   <h1>Projects</h1>
   <p>Computer Science student working across creative and technical programming — p5.js, Three.js, Unity, IoT, and HCI. Projects below run in the browser where possible; the rest have a short demo clip.</p>
   <div class="stats">
     <div><div class="stat-num">13</div><div class="stat-label">Repos</div></div>
-    <div><div class="stat-num">5</div><div class="stat-label">Languages</div></div>
-    <div><div class="stat-num">2</div><div class="stat-label">Live demos</div></div>
+    <div><div class="stat-num">7</div><div class="stat-label">Languages</div></div>
+    <div><div class="stat-num">8</div><div class="stat-label">Live demos</div></div>
   </div>
 </header>
 
@@ -139,7 +140,7 @@
     <div class="card-body">
       <h3 class="card-title">Chess</h3>
       <p class="card-desc">Vanilla JavaScript chess engine with minimax AI, alpha-beta pruning, and local two-player mode.</p>
-      <div class="tags"><span class="tag">javascript</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">minimax</span><span class="tag">AI</span><span class="tag">game</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/chess/chess-engine/index.html" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/chess" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -154,7 +155,7 @@
     <div class="card-body">
       <h3 class="card-title">Room404</h3>
       <p class="card-desc">Group IoT escape room built around real building sensors at UAL High Holborn.</p>
-      <div class="tags"><span class="tag">javascript</span><span class="tag">iot / hardware</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">iot / hardware</span><span class="tag">sensors</span><span class="tag">UX</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/Room404/dashboard.html" target="_blank">Dashboard</a><a href="https://breanna-gordon.github.io/Room404/player.html" target="_blank">Player</a><a href="https://breanna-gordon.github.io/Room404/index.html" target="_blank">Canvas</a><a href="https://github.com/Breanna-Gordon/Room404" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -169,7 +170,7 @@
     <div class="card-body">
       <h3 class="card-title">Motion-Canvas</h3>
       <p class="card-desc">p5.js drawing tool using Leap Motion hand tracking, reframing hand tremor as expressive drawing texture. Works with mouse if Leap Motion hardware isn't connected.</p>
-      <div class="tags"><span class="tag">javascript</span><span class="tag">iot / hardware</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">p5.js</span><span class="tag">iot / hardware</span><span class="tag">HCI</span><span class="tag">UX</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/Motion-Canvas/code/iteration3/index.html" target="_blank">Live demo</a><a href="https://breanna-gordon.github.io/Motion-Canvas/code/demos/tremor-comparison.html" target="_blank">Concept demo</a><a href="https://breanna-gordon.github.io/Motion-Canvas/" target="_blank" class="secondary">Full write-up</a><a href="https://github.com/Breanna-Gordon/Motion-Canvas" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -184,7 +185,7 @@
     <div class="card-body">
       <h3 class="card-title">IoT</h3>
       <p class="card-desc">Jupyter Notebook project — swap in a short description of what it explores or builds.</p>
-      <div class="tags"><span class="tag">python</span><span class="tag">iot / hardware</span></div>
+      <div class="tags"><span class="tag">python</span><span class="tag">iot / hardware</span><span class="tag">Jupyter</span></div>
       <div class="card-links"><a href="#" target="_blank">Watch demo</a><a href="https://github.com/Breanna-Gordon/IoT" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -199,14 +200,16 @@
     <div class="card-body">
       <h3 class="card-title">LifeForge</h3>
       <p class="card-desc">Choice-based Python game — swap in a short description of the story or mechanics.</p>
-      <div class="tags"><span class="tag">python</span></div>
+      <div class="tags"><span class="tag">python</span><span class="tag">pygame</span><span class="tag">game</span></div>
       <div class="card-links"><a href="#" target="_blank">Watch demo</a><a href="https://github.com/Breanna-Gordon/LifeForge" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
 
   <div class="card" data-tags="unity">
     <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">Orbital-System</span></div>
+      <div class="window-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">Orbital-System</span>
+      </div>
       <div class="window-body">
         <div class="placeholder-fill">Export as a Unity WebGL build to embed live, or record a clip</div>
       </div>
@@ -214,7 +217,7 @@
     <div class="card-body">
       <h3 class="card-title">Orbital System</h3>
       <p class="card-desc">ShaderLab / Unity project — swap in a short description of the shader or simulation it demonstrates.</p>
-      <div class="tags"><span class="tag">unity</span></div>
+      <div class="tags"><span class="tag">unity</span><span class="tag">ShaderLab</span><span class="tag">C#</span><span class="tag">graphics</span></div>
       <div class="card-links"><a href="#" target="_blank">Watch demo</a><a href="https://github.com/Breanna-Gordon/Orbital-System" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -233,7 +236,7 @@
 A WebGL-based interactive visualization exploring parametric equations through particle systems with real-time audio synthesis.
 
 .</p>
-      <div class="tags"><span class="tag">javascript</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">WebGL</span><span class="tag">Three.js</span><span class="tag">graphics</span><span class="tag">audio</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/Particle-Explorer/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/Particle-Explorer" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -248,7 +251,7 @@ A WebGL-based interactive visualization exploring parametric equations through p
     <div class="card-body">
       <h3 class="card-title">Pet Sim Practice</h3>
       <p class="card-desc">JavaScript practice project — swap in a short description of what it's practicing.</p>
-      <div class="tags"><span class="tag">javascript</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">game</span><span class="tag">practice</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/pet-sim-practice/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/pet-sim-practice" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -264,7 +267,7 @@ A WebGL-based interactive visualization exploring parametric equations through p
     <div class="card-body">
       <h3 class="card-title">ABKA</h3>
       <p class="card-desc">HTML project — swap in a short description.</p>
-      <div class="tags"><span class="tag">web / other</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/ABKA/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/ABKA" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -280,7 +283,7 @@ A WebGL-based interactive visualization exploring parametric equations through p
     <div class="card-body">
       <h3 class="card-title">API Practice</h3>
       <p class="card-desc">HTML project working with an external API — swap in which one and what it fetches.</p>
-      <div class="tags"><span class="tag">web / other</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">HTML</span><span class="tag">API</span></div>
       <div class="card-links"><a href="#" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/API_Practice" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -295,7 +298,7 @@ A WebGL-based interactive visualization exploring parametric equations through p
     <div class="card-body">
       <h3 class="card-title">Global Perspectives Blogs</h3>
       <p class="card-desc">Astro-based blog project — swap in a short description of its focus.</p>
-      <div class="tags"><span class="tag">web / other</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">Astro</span><span class="tag">blog</span></div>
       <div class="card-links"><a href="#" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/global_perspectives_blogs" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -310,7 +313,7 @@ A WebGL-based interactive visualization exploring parametric equations through p
     <div class="card-body">
       <h3 class="card-title">Algorithms</h3>
       <p class="card-desc">Private repo — swap in a short description once you decide whether to make it public.</p>
-      <div class="tags"><span class="tag">web / other</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">algorithms</span><span class="tag">Python</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/algorithms/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/algorithms" target="_blank" class="secondary">Code</a></div>
       </div>
   </div>
@@ -319,13 +322,13 @@ A WebGL-based interactive visualization exploring parametric equations through p
     <div class="card-window">
       <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">BeatByte 🔒</span></div>
       <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/BeatByte/" loading="lazy"></iframe>
+        <iframe src="https://breanna-gordon.github.io/BeatByte/pages/home.html" loading="lazy"></iframe>
       </div>
     </div>
     <div class="card-body">
       <h3 class="card-title">BeatByte</h3>
       <p class="card-desc">Private repo — swap in a short description once you decide whether to make it public.</p>
-      <div class="tags"><span class="tag">web / other</span></div>
+      <div class="tags"><span class="tag">web / other</span><span class="tag">UX</span><span class="tag">game audio</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
       <div class="card-links"><a href="https://breanna-gordon.github.io/BeatByte/pages/home.html" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/BeatByte" target="_blank" class="secondary">Code</a></div>
     </div>
   </div>
@@ -354,3 +357,4 @@ A WebGL-based interactive visualization exploring parametric equations through p
 
 </body>
 </html>
+```
