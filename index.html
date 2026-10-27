@@ -1,374 +1,295 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects</title>
+<title>Breanna Gordon: Projects</title>
+<meta name="description" content="Interactive projects by Breanna Gordon: hand-tracked drawing, sensor-driven escape rooms, particles and games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0C0E12;
-    --surface: #14171D;
-    --surface-2: #1B1F27;
-    --text: #ECE9E2;
-    --text-soft: #8B93A3;
-    --line: #262B34;
-    --line-bright: #3A414D;
-    --accent: #5ED9C0;
-    --accent-soft: rgba(94,217,192,0.1);
-    --coral: #E8735A;
-    --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
-    --sans: 'Space Grotesk', 'Segoe UI', sans-serif;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(94,217,192,0.10), transparent 60%),
-      var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.5;
-  }
-  a { color: inherit; }
+:root{
+  --paper:#F1EFEA; --ink:#14142B; --soft:#55556E; --rule:#CFCBC2;
+  --blue:#2A3CFF; --pink:#FF4FA3;
+  --display:'Bricolage Grotesque','Helvetica Neue',sans-serif;
+  --body:'Figtree','Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 
-  header { padding: 88px 40px 48px; max-width: 1680px; margin: 0 auto; }
-  .breadcrumb {
-    font-family: var(--mono); font-size: 12px; color: var(--text-soft);
-    margin-bottom: 24px; display: inline-flex; align-items: center;
-    border: 1px solid var(--line); background: var(--surface);
-    padding: 6px 12px; border-radius: 20px;
-  }
-  .breadcrumb .sep { color: var(--line-bright); margin: 0 4px; }
-  h1 { font-size: clamp(40px, 6vw, 64px); margin: 0 0 16px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
-  header p { max-width: 62ch; color: var(--text-soft); font-size: 18px; margin: 0 0 28px; line-height: 1.65; }
+/* hero: two ink layers that overprint */
+.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 clamp(20px,4vw,56px) clamp(32px,6vh,64px);overflow:hidden;isolation:isolate}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:multiply;z-index:-1;touch-action:pan-y}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(58px,15.5vw,248px);line-height:.84;letter-spacing:-.045em;margin:0;font-variation-settings:"wdth" 100}
+.hero h1 span{display:block}
+.hero h1 span+span{padding-left:.9em}
+.hero .intro{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-top:clamp(24px,4vh,48px)}
+.hero p{max-width:44ch;margin:0;font-size:clamp(17px,1.5vw,20px)}
+.hero .cue{font-size:15px;color:var(--soft)}
 
-  .stats { display: flex; gap: 32px; flex-wrap: wrap; }
-  .stat-num { font-family: var(--mono); font-size: 22px; font-weight: 400; color: var(--accent); }
-  .stat-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-soft); }
+/* filters */
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);padding:14px clamp(20px,4vw,56px);display:flex;gap:6px 26px;flex-wrap:wrap;align-items:baseline}
+.bar b{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.02em;margin-right:auto}
+.bar button{font:inherit;font-size:16px;background:none;border:0;padding:4px 0;cursor:pointer;color:var(--soft);border-bottom:2px solid transparent}
+.bar button:hover{color:var(--ink)}
+.bar button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--pink)}
 
-  .filters { max-width: 1680px; margin: 0 auto; padding: 0 40px 36px; display: flex; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 36px; }
-  .filter-btn { font-family: var(--mono); font-size: 13px; padding: 9px 18px; border: 1px solid var(--line); background: var(--surface); color: var(--text-soft); cursor: pointer; border-radius: 20px; transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease; }
-  .filter-btn:hover { border-color: var(--line-bright); color: var(--text); }
-  .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+/* gallery */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:clamp(36px,5vw,72px) clamp(20px,3vw,40px);padding:clamp(32px,5vw,72px) clamp(20px,4vw,56px) 96px;grid-auto-flow:dense}
+.work{display:flex;flex-direction:column;gap:18px;min-width:0}
+.work[hidden]{display:none}
+@media(min-width:760px){.work.wide{grid-column:span 2}}
+.plate{position:relative;aspect-ratio:16/10;background:#fff;border:2px solid var(--ink);overflow:hidden;box-shadow:8px 8px 0 var(--blue);transition:box-shadow .2s,transform .2s}
+.work:nth-child(even) .plate{box-shadow:8px 8px 0 var(--pink)}
+.plate.live{cursor:pointer}
+.plate.live:hover{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--ink)}
+.plate iframe{position:absolute;top:0;left:0;width:200%;height:200%;border:0;transform:scale(.5);transform-origin:0 0;pointer-events:none;background:#fff}
+.plate.on iframe{pointer-events:auto}
+.plate.on{box-shadow:8px 8px 0 var(--ink)}
+.hint{position:absolute;right:10px;bottom:10px;background:var(--ink);color:var(--paper);font-size:13px;padding:3px 10px;pointer-events:none}
+.plate.on .hint{display:none}
+.plate.idle{display:grid;place-items:center;box-shadow:none;border-color:var(--rule);background:var(--paper)}
+.plate.idle::before,.plate.idle::after{content:"";position:absolute;border-radius:50%;width:62%;aspect-ratio:1;mix-blend-mode:multiply}
+.plate.idle::before{background:var(--blue);left:12%;top:-20%;opacity:.9}
+.plate.idle::after{background:var(--pink);right:8%;bottom:-30%;opacity:.9}
+.plate.idle.p::before{left:auto;right:10%;top:-30%}.plate.idle.p::after{right:auto;left:6%;bottom:-24%}
+.plate.idle .mono{position:relative;z-index:1;font-family:var(--display);font-weight:800;font-size:clamp(48px,7vw,88px);letter-spacing:-.05em;color:var(--ink);mix-blend-mode:normal}
+.label h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.03em;line-height:1.05;margin:0 0 8px}
+.desc{margin:0 0 10px;max-width:58ch}
+.meta{margin:0 0 12px;font-size:14px;color:var(--soft)}
+.links{display:flex;flex-wrap:wrap;gap:6px 20px;font-weight:600;font-size:15px}
+.links a{text-decoration:none;border-bottom:2px solid var(--blue);padding-bottom:1px}
+.links a:hover{background:var(--blue);color:#fff}
+.links a.sec{border-bottom-color:var(--rule);font-weight:500;color:var(--soft)}
+.links a.sec:hover{background:none;color:var(--ink);border-bottom-color:var(--ink)}
 
-  .grid { max-width: 1680px; margin: 0 auto; padding: 40px 48px 120px; display: grid; grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)); gap: 28px; }
-  .card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
-    display: flex; flex-direction: column; overflow: hidden;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-  }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--accent); border-color: var(--accent); }
-  .card-window { aspect-ratio: 16 / 10; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; background: #0A0C0F; }
-  .window-bar { display: flex; align-items: center; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--surface-2); flex-shrink: 0; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-bright); }
-  .window-label { font-family: var(--mono); font-size: 12px; color: var(--text-soft); margin-left: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .window-body { flex: 1; position: relative; overflow: hidden; }
-  .window-body iframe { width: 133.333%; height: 133.333%; border: 0; display: block; transform: scale(0.75); transform-origin: top left; }
-  .window-body video, .window-body img.static-preview { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .placeholder-fill { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--text-soft); text-align: center; padding: 24px; }
-  .placeholder-fill.locked { color: var(--coral); }
+footer{border-top:2px solid var(--ink);padding:28px clamp(20px,4vw,56px) 56px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:15px;color:var(--soft)}
+footer a{color:var(--ink)}
 
-  .card-body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
-  .card-title { font-size: 21px; font-weight: 700; margin: 0; letter-spacing: -0.01em; color: var(--text); }
-  .card-desc { font-size: 14.5px; color: var(--text-soft); margin: 0; flex: 1; line-height: 1.6; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-family: var(--mono); font-size: 11px; padding: 4px 10px; border: 1px solid var(--line); color: var(--text-soft); border-radius: 20px; }
-  .card-links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 6px; font-family: var(--mono); font-size: 13px; }
-  .card-links a { text-decoration: none; border-bottom: 1px solid var(--accent); color: var(--accent); padding-bottom: 1px; }
-  .card-links a.secondary { border-bottom-color: var(--line-bright); color: var(--text-soft); }
-
-  footer { max-width: 1680px; margin: 0 auto; padding: 0 40px 72px; font-family: var(--mono); font-size: 13px; color: var(--text-soft); }
-  footer a { border-bottom: 1px solid var(--line-bright); text-decoration: none; }
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.plate{transition:none}}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="breadcrumb">github.com/<span id="gh-user">Breanna-Gordon</span><span class="sep">/</span>projects</div>
-  <h1>Projects</h1>
-  <p>Computer Science student working across creative and technical programming — p5.js, Three.js, Unity, IoT, and HCI. Projects below run in the browser where possible; the rest have a short demo clip.</p>
-  <div class="stats">
-    <div><div class="stat-num">13</div><div class="stat-label">Repos</div></div>
-    <div><div class="stat-num">7</div><div class="stat-label">Languages</div></div>
-    <div><div class="stat-num">8</div><div class="stat-label">Live demos</div></div>
+<header class="hero">
+  <canvas id="blue" aria-hidden="true"></canvas>
+  <canvas id="pink" aria-hidden="true"></canvas>
+  <h1><span>Breanna</span><span>Gordon</span></h1>
+  <div class="intro">
+    <p>Computer science student making things you can touch in the browser: hand-tracked drawing, rooms that read real sensors, particles and games.</p>
+    <span class="cue">Move your cursor to draw. Projects below.</span>
   </div>
 </header>
 
-<div class="filters" id="filters">
-  <button class="filter-btn active" data-filter="all">all</button>
-  <button class="filter-btn" data-filter="javascript">javascript</button>
-  <button class="filter-btn" data-filter="unity">unity</button>
-  <button class="filter-btn" data-filter="python">python</button>
-  <button class="filter-btn" data-filter="iot">iot / hardware</button>
-  <button class="filter-btn" data-filter="web">web / other</button>
-</div>
+<nav class="bar" aria-label="Filter projects">
+  <b>Projects</b>
+  <button aria-pressed="true" data-filter="all">All</button>
+  <button aria-pressed="false" data-filter="javascript">JavaScript</button>
+  <button aria-pressed="false" data-filter="python">Python</button>
+  <button aria-pressed="false" data-filter="unity">Unity</button>
+  <button aria-pressed="false" data-filter="iot">IoT and hardware</button>
+  <button aria-pressed="false" data-filter="web">Web and other</button>
+</nav>
 
-<!--
-  ============================================================
-  HOW TO FILL IN A LIVE DEMO
-  ============================================================
-  Each repo below has a matching card. Once you turn on GitHub
-  Pages for a repo (Settings > Pages > Deploy from branch),
-  uncomment the <iframe> line in that card and delete the
-  <div class="placeholder-fill">...</div> line above it.
-
-  URL pattern: https://<your-username>.github.io/<repo-name>/
-
-  Private repos (algorithms, BeatByte) can't use free-tier GitHub
-  Pages until you either make the repo public or upgrade to a
-  paid GitHub plan that supports private Pages. Until then, leave
-  them as "Code only" or swap in a short screen-recorded clip.
-
-  Jupyter Notebook and ShaderLab (Unity shaders) don't run
-  directly in a browser tab — for those, either export a WebGL
-  build (Unity) / static HTML export (Notebook, via
-  `jupyter nbconvert --to html`), or just record a demo video.
-  ============================================================
--->
-
-<div class="grid" id="grid">
-
-  <!-- MOTION-CANVAS -->
-  <div class="card" data-tags="javascript iot">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">Motion-Canvas</span></div>
-      <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/Motion-Canvas/code/iteration3/index.html" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Motion-Canvas</h3>
-      <p class="card-desc">p5.js drawing tool using Leap Motion hand tracking, reframing hand tremor as expressive drawing texture. Works with mouse if Leap Motion hardware isn't connected.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">p5.js</span><span class="tag">iot / hardware</span><span class="tag">HCI</span><span class="tag">UX</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/Motion-Canvas/code/iteration3/index.html" target="_blank">Live demo</a><a href="https://breanna-gordon.github.io/Motion-Canvas/code/demos/tremor-comparison.html" target="_blank">Concept demo</a><a href="https://breanna-gordon.github.io/Motion-Canvas/" target="_blank" class="secondary">Full write-up</a><a href="https://github.com/Breanna-Gordon/Motion-Canvas" target="_blank" class="secondary">Code</a></div>
-    </div>
+<main class="wall" id="wall">
+<article class="work wide" data-tags="javascript iot">
+  <div class="plate live" tabindex="0" role="button" aria-label="Toggle interaction with Room404 preview"><iframe data-src="https://breanna-gordon.github.io/Room404/dashboard.html" title="Room404 live preview"></iframe><span class="hint">click to play</span></div>
+  <div class="label">
+    <h3>Room404</h3>
+    <p class="desc">A group escape room wired to real sensors in the UAL High Holborn building. Players solve puzzles from a phone while a live dashboard reads the room.</p>
+    <p class="meta">javascript / iot. Runs in the browser.</p>
+    <div class="links"><a href="https://breanna-gordon.github.io/Room404/dashboard.html" target="_blank" rel="noopener">Dashboard</a><a href="https://breanna-gordon.github.io/Room404/player.html" target="_blank" rel="noopener">Player</a><a href="https://breanna-gordon.github.io/Room404/index.html" target="_blank" rel="noopener">Canvas</a><a href="https://github.com/Breanna-Gordon/Room404" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- PARTICLE EXPLORER -->
-  <div class="card" data-tags="javascript">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">Particle-Explorer</span></div>
-      <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/Particle-Explorer/" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Particle Explorer</h3>
-      <p class="card-desc">Mathematical Curves Visualized Through Interactive 3D Particles
-
-A WebGL-based interactive visualization exploring parametric equations through particle systems with real-time audio synthesis.
-
-.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">WebGL</span><span class="tag">Three.js</span><span class="tag">graphics</span><span class="tag">audio</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/Particle-Explorer/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/Particle-Explorer" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work wide" data-tags="javascript iot">
+  <div class="plate live" tabindex="0" role="button" aria-label="Toggle interaction with Motion Canvas preview"><iframe data-src="https://breanna-gordon.github.io/Motion-Canvas/code/iteration3/index.html" title="Motion Canvas live preview"></iframe><span class="hint">click to play</span></div>
+  <div class="label">
+    <h3>Motion Canvas</h3>
+    <p class="desc">A p5.js drawing tool driven by Leap Motion hand tracking. It treats hand tremor as expressive texture instead of noise. Falls back to the mouse without the hardware.</p>
+    <p class="meta">javascript / iot. Runs in the browser.</p>
+    <div class="links"><a href="https://breanna-gordon.github.io/Motion-Canvas/code/iteration3/index.html" target="_blank" rel="noopener">Live demo</a><a href="https://breanna-gordon.github.io/Motion-Canvas/code/demos/tremor-comparison.html" target="_blank" rel="noopener">Concept demo</a><a href="https://breanna-gordon.github.io/Motion-Canvas/" target="_blank" rel="noopener" class=sec>Write-up</a><a href="https://github.com/Breanna-Gordon/Motion-Canvas" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- CHESS -->
-  <div class="card" data-tags="javascript">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">chess</span></div>
-      <div class="window-body">
-        
-        <iframe src="https://breanna-gordon.github.io/chess/chess-engine/index.html" loading="lazy"></iframe> 
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Chess</h3>
-      <p class="card-desc">Vanilla JavaScript chess engine with minimax AI, alpha-beta pruning, and local two-player mode.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">minimax</span><span class="tag">AI</span><span class="tag">game</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/chess/chess-engine/index.html" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/chess" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="javascript">
+  <div class="plate live" tabindex="0" role="button" aria-label="Toggle interaction with Particle Explorer preview"><iframe data-src="https://breanna-gordon.github.io/Particle-Explorer/" title="Particle Explorer live preview"></iframe><span class="hint">click to play</span></div>
+  <div class="label">
+    <h3>Particle Explorer</h3>
+    <p class="desc">A tunable particle system in JavaScript. Change the settings and watch the swarm respond.</p>
+    <p class="meta">javascript. Runs in the browser.</p>
+    <div class="links"><a href="https://breanna-gordon.github.io/Particle-Explorer/" target="_blank" rel="noopener">Live demo</a><a href="https://github.com/Breanna-Gordon/Particle-Explorer" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- ROOM404 -->
-  <div class="card" data-tags="javascript iot">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">Room404</span></div>
-      <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/Room404/dashboard.html" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Room404</h3>
-      <p class="card-desc">Group IoT escape room built around real building sensors at UAL High Holborn.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">iot / hardware</span><span class="tag">sensors</span><span class="tag">UX</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/Room404/dashboard.html" target="_blank">Dashboard</a><a href="https://breanna-gordon.github.io/Room404/player.html" target="_blank">Player</a><a href="https://breanna-gordon.github.io/Room404/index.html" target="_blank">Canvas</a><a href="https://github.com/Breanna-Gordon/Room404" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="javascript">
+  <div class="plate live" tabindex="0" role="button" aria-label="Toggle interaction with Pet Sim preview"><iframe data-src="https://breanna-gordon.github.io/pet-sim-practice/" title="Pet Sim live preview"></iframe><span class="hint">click to play</span></div>
+  <div class="label">
+    <h3>Pet Sim</h3>
+    <p class="desc">A small virtual pet built to practise state, timers and game loops in plain JavaScript.</p>
+    <p class="meta">javascript. Runs in the browser.</p>
+    <div class="links"><a href="https://breanna-gordon.github.io/pet-sim-practice/" target="_blank" rel="noopener">Live demo</a><a href="https://github.com/Breanna-Gordon/pet-sim-practice" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- IOT -->
-  <div class="card" data-tags="python iot">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">IoT.ipynb</span></div>
-      <div class="window-body">
-         <iframe src="https://breanna-gordon.github.io/IoT/web_dashboard" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">IoT</h3>
-      <p class="card-desc">This project uses an ESP32 microcontroller to monitor temperature, humidity, and heart rate. Data is sent to an MQTT broker and displayed on a web dashboard. The dashboard also allows control of an LED and a buzzer.
-      its currently down as no longer have hardware and active server</p>
-      <div class="tags"><span class="tag">python</span><span class="tag">iot / hardware</span><span class="tag">Jupyter</span></div>
-     <div class="card-links"><a href="https://breanna-gordon.github.io/IoT/web_dashboard/index.html" target="_blank">Live demo</a><a href="https://breanna-gordon.github.io/IoT" target="_blank">ReadMe</a><a href="https://breanna-gordon.github.io/IoT" target="_blank" class="secondary">Full write-up</a><a href="https://github.com/Breanna-Gordon/IoT" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="javascript">
+  <div class="plate idle b" aria-hidden="true"><span class="mono">Ch</span></div>
+  <div class="label">
+    <h3>Chess</h3>
+    <p class="desc">A chess game in vanilla JavaScript with a minimax AI using alpha-beta pruning, plus local two-player mode.</p>
+    <p class="meta">javascript. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/chess" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- LIFE FORGE -->
-  <div class="card" data-tags="python">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">main.py</span></div>
-      <div class="window-body">
-        <div class="placeholder-fill">Python game with images — record a short screen capture of a playthrough</div>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">LifeForge</h3>
-      <p class="card-desc">Choice-based Python game — swap in a short description of the story or mechanics.</p>
-      <div class="tags"><span class="tag">python</span><span class="tag">pygame</span><span class="tag">game</span></div>
-      <div class="card-links"><a href="#" target="_blank">Watch demo</a><a href="https://github.com/Breanna-Gordon/LifeForge" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="python">
+  <div class="plate idle p" aria-hidden="true"><span class="mono">Li</span></div>
+  <div class="label">
+    <h3>LifeForge</h3>
+    <p class="desc">A life simulator in Pygame. Build an avatar, then age up through school, work, relationships and family, with choices that shift your stats.</p>
+    <p class="meta">python. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/LifeForge" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- ORBITAL SYSTEM -->
-  <div class="card" data-tags="unity">
-    <div class="card-window">
-      <div class="window-bar">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">Orbital-System</span>
-      </div>
-      <div class="window-body">
-        <div class="placeholder-fill">Export as a Unity WebGL build to embed live, or record a clip</div>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Orbital System</h3>
-      <p class="card-desc">ShaderLab / Unity project — swap in a short description of the shader or simulation it demonstrates.</p>
-      <div class="tags"><span class="tag">unity</span><span class="tag">ShaderLab</span><span class="tag">C#</span><span class="tag">graphics</span></div>
-      <div class="card-links"><a href="#" target="_blank">Watch demo</a><a href="https://github.com/Breanna-Gordon/Orbital-System" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="unity">
+  <div class="plate idle b" aria-hidden="true"><span class="mono">Or</span></div>
+  <div class="label">
+    <h3>Orbital System</h3>
+    <p class="desc">A Unity project with custom shaders simulating orbiting bodies.</p>
+    <p class="meta">unity. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/Orbital-System" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- GLOBAL PERSPECTIVES BLOGS -->
-  <div class="card" data-tags="web">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">global_perspectives_blogs</span></div>
-      <div class="window-body">
-        <div class="placeholder-fill">Astro site — build it first (`npm run build`), then deploy the output via Pages</div>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Global Perspectives Blogs</h3>
-      <p class="card-desc">Astro-based blog project — swap in a short description of its focus.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">Astro</span><span class="tag">blog</span></div>
-      <div class="card-links"><a href="#" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/global_perspectives_blogs" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="python iot">
+  <div class="plate idle p" aria-hidden="true"><span class="mono">Io</span></div>
+  <div class="label">
+    <h3>IoT</h3>
+    <p class="desc">Jupyter notebooks exploring sensor data and connected devices.</p>
+    <p class="meta">python / iot. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/IoT" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- ALGORITHMS -->
-  <div class="card" data-tags="web">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">algorithms </span></div>
-      <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/algorithms/" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Algorithms</h3>
-      <p class="card-desc">Private repo — swap in a short description once you decide whether to make it public.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">algorithms</span><span class="tag">Python</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/algorithms/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/algorithms" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="web">
+  <div class="plate idle b" aria-hidden="true"><span class="mono">AB</span></div>
+  <div class="label">
+    <h3>ABKA</h3>
+    <p class="desc">A multi-page HTML and CSS project.</p>
+    <p class="meta">web. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/ABKA" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- BEATBYTE -->
-  <div class="card" data-tags="web">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">BeatByte </span></div>
-      <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/BeatByte/pages/home.html" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">BeatByte</h3>
-      <p class="card-desc">Private repo — swap in a short description once you decide whether to make it public.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">UX</span><span class="tag">game audio</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/BeatByte/pages/home.html" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/BeatByte" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="web">
+  <div class="plate idle p" aria-hidden="true"><span class="mono">AP</span></div>
+  <div class="label">
+    <h3>API Practice</h3>
+    <p class="desc">Fetching and displaying data from an external API in the browser.</p>
+    <p class="meta">web. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/API_Practice" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- ABKA -->
-  <div class="card" data-tags="web">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">ABKA</span></div>
-      <div class="window-body">
-       
-        <iframe src="https://breanna-gordon.github.io/ABKA/" loading="lazy"></iframe> 
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">ABKA</h3>
-      <p class="card-desc">HTML project — swap in a short description.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">HTML</span><span class="tag">CSS</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/ABKA/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/ABKA" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="web">
+  <div class="plate idle b" aria-hidden="true"><span class="mono">Gl</span></div>
+  <div class="label">
+    <h3>Global Perspectives</h3>
+    <p class="desc">A blog built with Astro.</p>
+    <p class="meta">web. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/global_perspectives_blogs" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- PET SIM PRACTICE -->
-  <div class="card" data-tags="javascript">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">pet-sim-practice</span></div>
-      <div class="window-body">
-        <iframe src="https://breanna-gordon.github.io/pet-sim-practice/" loading="lazy"></iframe>
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">Pet Sim Practice</h3>
-      <p class="card-desc">JavaScript practice project — swap in a short description of what it's practicing.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">javascript</span><span class="tag">game</span><span class="tag">practice</span></div>
-      <div class="card-links"><a href="https://breanna-gordon.github.io/pet-sim-practice/" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/pet-sim-practice" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="web">
+  <div class="plate idle p" aria-hidden="true"><span class="mono">Al</span></div>
+  <div class="label">
+    <h3>Algorithms</h3>
+    <p class="desc">Classic algorithms and data structures, written while studying.</p>
+    <p class="meta">web. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/algorithms" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-  <!-- API PRACTICE -->
-  <div class="card" data-tags="web">
-    <div class="card-window">
-      <div class="window-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="window-label">API_Practice</span></div>
-      <div class="window-body">
-        <div class="placeholder-fill">Enable Pages on this repo, then uncomment the iframe below</div>
-        <!-- <iframe src="https://breanna-gordon.github.io/API_Practice/" loading="lazy"></iframe> -->
-      </div>
-    </div>
-    <div class="card-body">
-      <h3 class="card-title">API Practice</h3>
-      <p class="card-desc">HTML project working with an external API — swap in which one and what it fetches.</p>
-      <div class="tags"><span class="tag">web / other</span><span class="tag">HTML</span><span class="tag">API</span></div>
-      <div class="card-links"><a href="#" target="_blank">Live demo</a><a href="https://github.com/Breanna-Gordon/API_Practice" target="_blank" class="secondary">Code</a></div>
-    </div>
+</article>
+<article class="work" data-tags="web">
+  <div class="plate idle b" aria-hidden="true"><span class="mono">Be</span></div>
+  <div class="label">
+    <h3>BeatByte</h3>
+    <p class="desc">A music-focused coding project.</p>
+    <p class="meta">web. Code only for now.</p>
+    <div class="links"><a href="https://github.com/Breanna-Gordon/BeatByte" target="_blank" rel="noopener" class=sec>Code</a></div>
   </div>
-
-</div>
+</article>
+</main>
 
 <footer>
-Projects all made by Breanna Gordon
+  <span>Breanna Gordon</span>
+  <a href="https://github.com/Breanna-Gordon" target="_blank" rel="noopener">github.com/Breanna-Gordon</a>
 </footer>
 
 <script>
-  const buttons = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.card');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      cards.forEach(card => {
-        const tags = card.dataset.tags || '';
-        card.style.display = (filter === 'all' || tags.includes(filter)) ? '' : 'none';
-      });
-    });
-  });
-</script>
+(function(){
+  /* filters */
+  var btns=document.querySelectorAll('.bar button'),works=document.querySelectorAll('.work');
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.setAttribute('aria-pressed','false')});
+    b.setAttribute('aria-pressed','true');
+    var f=b.dataset.filter;
+    works.forEach(function(w){w.hidden=!(f==='all'||w.dataset.tags.split(' ').indexOf(f)>-1)});
+  })});
 
+  /* lazy-load previews; click toggles interaction */
+  var frames=document.querySelectorAll('iframe[data-src]');
+  function load(f){if(!f.src)f.src=f.dataset.src}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);io.unobserve(e.target)}})},{rootMargin:'300px'});
+    frames.forEach(function(f){io.observe(f)});
+  } else frames.forEach(load);
+  document.querySelectorAll('.plate.live').forEach(function(p){
+    function t(){p.classList.toggle('on')}
+    p.addEventListener('click',t);
+    p.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}});
+  });
+
+  /* hero: two inks, slightly misregistered, overprinted with multiply */
+  var hero=document.querySelector('.hero'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var layers=[{c:document.getElementById('blue'),col:'42,60,255',off:0},{c:document.getElementById('pink'),col:'255,79,163',off:14}];
+  var W,H,dpr;
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=hero.clientWidth;H=hero.clientHeight;
+    layers.forEach(function(l){l.c.width=W*dpr;l.c.height=H*dpr;l.x=l.c.getContext('2d');l.x.setTransform(dpr,0,0,dpr,0,0)})}
+  size();addEventListener('resize',size);
+  function dab(l,x,y,r,a){var g=l.x;g.fillStyle='rgba('+l.col+','+a+')';g.beginPath();g.arc(x+l.off,y+l.off*.6,r,0,6.2832);g.fill()}
+  function stroke(x0,y0,x1,y1,r){
+    var d=Math.hypot(x1-x0,y1-y0),n=Math.max(1,Math.ceil(d/(r*.4)));
+    for(var i=0;i<=n;i++){var t=i/n,x=x0+(x1-x0)*t,y=y0+(y1-y0)*t;
+      dab(layers[0],x,y,r,.5);dab(layers[1],x+r*.5,y-r*.3,r*.8,.5)}
+  }
+  // static composition so the page is never empty (and for reduced motion)
+  function seed(){
+    layers.forEach(function(l){l.x.clearRect(0,0,W,H)});
+    var s=Math.min(W,H);
+    dab(layers[0],W*.72,H*.28,s*.28,.85);
+    dab(layers[1],W*.82,H*.4,s*.22,.85);
+    dab(layers[1],W*.18,H*.12,s*.09,.8);
+  }
+  seed();addEventListener('resize',seed);
+  if(reduce)return;
+
+  var px=null,py=null,idle=true,last=0,t0=performance.now();
+  function pos(e){var r=hero.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]}
+  hero.addEventListener('pointermove',function(e){
+    var p=pos(e);idle=false;last=performance.now();
+    if(px!==null)stroke(px,py,p[0],p[1],10+Math.min(26,Math.hypot(p[0]-px,p[1]-py)*.5));
+    px=p[0];py=p[1];
+  });
+  hero.addEventListener('pointerleave',function(){px=null});
+  var ax=null,ay=null;
+  function frame(now){
+    if(now-last>2500)idle=true;
+    if(idle){ // a slow pen draws on its own until the visitor takes over
+      var t=(now-t0)/1000,x=W*(.5+.38*Math.sin(t*.37)),y=H*(.38+.3*Math.sin(t*.53+1.3));
+      if(ax!==null)stroke(ax,ay,x,y,14);
+      ax=x;ay=y;
+    } else ax=null;
+    layers.forEach(function(l){l.x.globalCompositeOperation='destination-out';l.x.fillStyle='rgba(0,0,0,.012)';l.x.fillRect(0,0,W,H);l.x.globalCompositeOperation='source-over'});
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange',function(){t0=performance.now()-0});
+})();
+</script>
 </body>
 </html>
-```
